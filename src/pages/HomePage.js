@@ -3,6 +3,7 @@ import Header from "../components/homePage/Header";
 import MainPost from "../components/homePage/MainPost";
 import MessageTab from "../components/homePage/MessageTab";
 import TabBar from "../components/homePage/TabBar";
+import UltilsTab from "../components/homePage/UltilsTab";
 
 const HomePage = () => {
   return (
@@ -11,8 +12,12 @@ const HomePage = () => {
       <div className="flex gap-4 w-full min-h-[500px] px-4 justify-between">
         <TabBar />
         <MainPost />
-        <div className="tabbar w-[160px] bg-white rounded-lg"></div>
-        <MessageTab />
+        <div className="w-[600px] ">
+          <div className=" right-0 top-0  fixed flex gap-4">
+            <UltilsTab />
+            <MessageTab />
+          </div>
+        </div>
       </div>
     </div>
   );

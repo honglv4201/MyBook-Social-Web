@@ -1,28 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
+import { useClickOutSide } from "../../hooks/useClickOutSide";
+import CreatePostModal from "../homePageModal/CreatePostModal";
 const avatar = require("../../asset/img/avatar/avatar1.jpg");
 const avatar2 = require("../../asset/img/avatar/avatar4.jpg");
 const avatar3 = require("../../asset/img/avatar/avatar3.jpg");
 const avatar4 = require("../../asset/img/avatar/avatar2.jpg");
 const post1 = require("../../asset/img/post/img1.jpg");
+const post2 = require("../../asset/img/post/img2.jpg");
+const post3 = require("../../asset/img/post/img3.jpg");
 
 const MainPost = () => {
+  const { show, setShow, nodeRef } = useClickOutSide(".modal");
+
+  const [coords, setCoords] = useState({});
+
+  const handleOpenModal = () => {
+    setShow(true);
+    setCoords(nodeRef.current.getBoundingClientRect());
+  };
   return (
-    <div className="tabbar min-w-[300px] flex-1 rounded-lg  mb-20">
-      <CreatePost />
-      <PostItem />
-      <PostItem />
-      <PostItem />
+    <div className="tabbar min-w-[300px] flex-1 rounded-lg mb-20">
+      <CreatePost
+        show={show}
+        setShow={setShow}
+        nodeRef={nodeRef}
+        handleOpenModal={handleOpenModal}
+        coords={coords}
+      />
+      {new Array(100).fill(0).map((item) => {
+        return <PostItem />;
+      })}
     </div>
   );
 };
 
 export default MainPost;
 
-const CreatePost = () => {
+const CreatePost = ({ show, setShow, nodeRef, handleOpenModal, coords }) => {
   return (
     <div className="w-full bg-white rounded-lg px-8 py-6 mb-4">
       <div className="flex items-center gap-2 mb-6">
-        <div className="avatar w-10 h-10 rounded-full">
+        <div className="avatar w-10 h-10 rounded-full relative">
+          {show && (
+            <CreatePostModal
+              coords={coords}
+              setShow={() => {
+                setShow(false);
+              }}
+            />
+          )}
           <img
             src={avatar}
             alt=""
@@ -30,6 +56,8 @@ const CreatePost = () => {
           />
         </div>
         <input
+          ref={nodeRef}
+          onClick={handleOpenModal}
           type="text"
           placeholder="What's happening?"
           className="px-4 py-3 flex-1 rounded-lg text-sm bg-primary_input border-none outline-none"
@@ -39,7 +67,7 @@ const CreatePost = () => {
       <div className="flex items-center gap-2 text-sm">
         <div className="item flex gap-2 items-center cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-md">
           <i class="fa-solid fa-camera-retro"></i>
-          <span>Live Video</span>
+          <span className="hongxx">Live Video</span>
         </div>
 
         <div className="item flex gap-2 items-center cursor-pointer hover:bg-gray-100 px-2 py-1 rounded-md">
@@ -85,7 +113,7 @@ const PostItem = () => {
       </div>
 
       <div className="post-image w-full h-[340px] rounded-xl overflow-hidden">
-        <img src={post1} alt="" className="w-full h-full object-cover" />
+        <img src={post2} alt="" className="w-full h-full object-cover" />
       </div>
 
       <div className="flex gap-2 w-full justify-between items-center">
