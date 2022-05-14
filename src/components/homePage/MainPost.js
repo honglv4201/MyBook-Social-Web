@@ -10,7 +10,7 @@ const post2 = require("../../asset/img/post/img2.jpg");
 const post3 = require("../../asset/img/post/img3.jpg");
 
 const MainPost = () => {
-  const { show, setShow, nodeRef } = useClickOutSide(".modal");
+  const { show, setShow, nodeRef } = useClickOutSide(".modal", ".modal-popup");
 
   const [coords, setCoords] = useState({});
 
@@ -27,8 +27,8 @@ const MainPost = () => {
         handleOpenModal={handleOpenModal}
         coords={coords}
       />
-      {new Array(100).fill(0).map((item) => {
-        return <PostItem />;
+      {new Array(100).fill(0).map((item, ind) => {
+        return <PostItem key={ind} />;
       })}
     </div>
   );
