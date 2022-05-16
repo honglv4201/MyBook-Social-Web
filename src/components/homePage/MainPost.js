@@ -27,9 +27,10 @@ const MainPost = () => {
         handleOpenModal={handleOpenModal}
         coords={coords}
       />
-      {new Array(100).fill(0).map((item, ind) => {
+      {/* {new Array(1).fill(0).map((item, ind) => {
         return <PostItem key={ind} />;
-      })}
+      })} */}
+      <PostItem />
     </div>
   );
 };
@@ -44,10 +45,13 @@ const CreatePost = ({ show, setShow, nodeRef, handleOpenModal, coords }) => {
           {show && (
             <CreatePostModal
               coords={coords}
-              setShow={() => {
+              setClose={() => {
                 setShow(false);
               }}
-            />
+              type="createpost"
+            >
+              Create a Post
+            </CreatePostModal>
           )}
           <img
             src={avatar}
@@ -89,6 +93,14 @@ const CreatePost = ({ show, setShow, nodeRef, handleOpenModal, coords }) => {
 };
 
 const PostItem = () => {
+  const { show, setShow, nodeRef } = useClickOutSide(".modal", "none");
+
+  const [coords, setCoords] = useState({});
+  const handleClickToMore = () => {
+    setShow(true);
+    setCoords(nodeRef.current.getBoundingClientRect());
+    console.log("hogn");
+  };
   return (
     <div className="w-full flex flex-col items-start gap-y-5 min-h-[250px] rounded-lg bg-white px-6 pt-4 pb-6">
       <div className="flex w-full items-center gap-4 justify-between">
@@ -107,9 +119,20 @@ const PostItem = () => {
           </div>
         </div>
 
-        <div className="btn_more">
+        <div className="btn_more" ref={nodeRef} onClick={handleClickToMore}>
           <i class="fa-solid fa-bars"></i>
         </div>
+        {show && (
+          <CreatePostModal
+            setClose={() => {
+              setShow(false);
+            }}
+            type="report"
+            coords={coords}
+          >
+            Report
+          </CreatePostModal>
+        )}
       </div>
 
       <div className="post-image w-full h-[340px] rounded-xl overflow-hidden">

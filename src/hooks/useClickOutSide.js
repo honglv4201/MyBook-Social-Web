@@ -6,7 +6,7 @@ export const useClickOutSide = (dom = "", dom2 = "") => {
 
   useEffect(() => {
     const handleClickOutSide = (e) => {
-      if (document.querySelector(dom2)) {
+      if (dom2 !== "none") {
         if (
           nodeRef.current &&
           !nodeRef.current.contains(e.target) &&
@@ -23,6 +23,7 @@ export const useClickOutSide = (dom = "", dom2 = "") => {
           !document.querySelector(dom).contains(e.target)
         ) {
           setShow(false);
+          console.log("success");
         }
       }
     };

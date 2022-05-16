@@ -1,5 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { useClickOutSide } from "../../hooks/useClickOutSide";
+import CustomModal from "../homePageModal/CreatePostModal";
 const avatar = require("../../asset/img/avatar/avatar1.jpg");
 const avatar2 = require("../../asset/img/avatar/avatar4.jpg");
 const avatar3 = require("../../asset/img/avatar/avatar3.jpg");
@@ -120,6 +122,12 @@ const EventItemList = () => {
 };
 
 const FamousPeopleItem = () => {
+  const { show, setShow, nodeRef } = useClickOutSide(".modal");
+  const [coords, setCoords] = useState({});
+  const handleOpenModal = () => {
+    setShow(true);
+    setCoords(nodeRef.current.getBoundingClientRect());
+  };
   return (
     <div className="mt-3">
       <div className="flex items-center gap-3 mb-4">
@@ -143,9 +151,24 @@ const FamousPeopleItem = () => {
         <div className="btn px-8  py-[6px] cursor-pointer hover:bg-gray-100 text-sm rounded-lg bg-white border border-gray-400 text-center">
           Ignore
         </div>
-        <div className="btn px-8  py-[6px] cursor-pointer hover:bg-opacity-80 text-sm rounded-lg bg-primary_btn text-white border border-transparent text-center">
+        <div
+          ref={nodeRef}
+          onClick={handleOpenModal}
+          className="btn px-8  py-[6px] cursor-pointer hover:bg-opacity-80 text-sm rounded-lg bg-primary_btn text-white border border-transparent text-center"
+        >
           Follow
         </div>
+        {show && (
+          <CustomModal
+            coords={coords}
+            setClose={() => {
+              setShow(false);
+            }}
+            type="unfollow"
+          >
+            UnFollow
+          </CustomModal>
+        )}
       </div>
     </div>
   );
